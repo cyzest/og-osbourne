@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: OG Osbourne - AWS Lambda based URL to ogTag API Demo Application
+Globals:
+  Function:
+    Timeout: 20
+    Environment:
+      Variables:
+        TABLE_NAME:
+        ENDPOINT_OVERRIDE:
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
+Resources:
+  CreateOpenGraphFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      CodeUri: target/og-osbourne-1.0.0.jar
+      Handler: com.cyzest.ogosbourne.handler.CreateOpenGraphHandler::handleRequest
+      Runtime: java8
+      Events:
+        CreateOpenGraphApi:
+          Type: Api
+          Properties:
+            Path: /open-graph
+            Method: POST
+Outputs:
+  APIEndpointURL:
+    Description: URL of your API endpoint
+      Value:
+        'Fn::Sub': >-
+          https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/open-graph
