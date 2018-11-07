@@ -174,7 +174,7 @@ public class OpenGraph {
     }
 
     private static boolean isRedirect(int statusCode) {
-        return statusCode == 301 || statusCode == 302;
+        return statusCode / 100 == 3;
     }
 
 }
